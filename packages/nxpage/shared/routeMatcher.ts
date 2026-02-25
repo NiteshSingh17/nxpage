@@ -20,10 +20,12 @@ const globToRegExp = (pattern: string): RegExp => {
   );
   return new RegExp(`^${finalPattern}$`);
 };
+const normalizePattern = (pattern: string) =>
+  pattern.startsWith("/") ? pattern : `/${pattern}`;
 
-const matchesPattern = (routePath: string, pattern: RoutePattern): boolean => {
+const matchesPattern = (routePath: string, pattern: RoutePattern) => {
   if (pattern instanceof RegExp) return pattern.test(routePath);
-  return globToRegExp(pattern).test(routePath);
+  return globToRegExp(normalizePattern(pattern)).test(routePath);
 };
 
 export const normalizeRoutePath = (input: string): string => {

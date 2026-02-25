@@ -43,7 +43,8 @@ export function createNxPageServer(options: NxPageServerOptions = {}): void {
 
           if (isBot) {
             const routePath = normalizeRoutePath(req.url ?? "/");
-            if (!shouldProcessRoute(routePath, options)) {
+            const showProceed = shouldProcessRoute(routePath, options);
+            if (!showProceed) {
               return handle(req, res);
             }
 

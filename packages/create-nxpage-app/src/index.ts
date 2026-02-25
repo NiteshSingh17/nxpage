@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import spawn from "cross-spawn";
 import fs from "fs";
 import path from "path";
@@ -21,13 +20,13 @@ spawn.sync(
 
 spawn.sync("npm", ["install", "nxpage"], { cwd: root, stdio: "inherit" });
 
-fs.copyFileSync(path.join(templateDir, "server.ts"), path.join(root, "server.ts"));
+fs.copyFileSync(path.join(templateDir, "server.js"), path.join(root, "server.js"));
 
 const packageJsonPath = path.join(root, "package.json");
 const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
-packageJson.scripts.dev = "next dev";
-packageJson.scripts.build = "next build && nxpage build";
-packageJson.scripts.start = "NODE_ENV=production node server.js";
+packageJson.scripts.dev = "nxpage dev";
+packageJson.scripts.build = "nxpage build";
+packageJson.scripts.start = "nxpage start";
 
 fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
 

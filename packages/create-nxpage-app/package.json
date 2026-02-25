@@ -42,14 +42,13 @@
     "templates"
   ],
   "scripts": {
-    "build": "tsup src/index.ts && cpx \"templates/**/*\" dist/templates",
+    "build": "tsup && cpx \"templates/**/*\" dist/templates",
     "dev": "tsup --watch",
     "clean": "rm -rf dist"
   },
   "dependencies": {
     "cpx": "^1.5.0",
-    "cross-spawn": "^7.0.3",
-    "nxpage": "0.0.21"
+    "cross-spawn": "^7.0.3"
   },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.6",
