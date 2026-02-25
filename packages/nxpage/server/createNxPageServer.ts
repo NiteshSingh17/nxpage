@@ -4,26 +4,26 @@ import next from "next";
 import path from "path";
 import { normalizeRoutePath, shouldProcessRoute, type RoutePattern } from "../shared/routeMatcher";
 import { isAIAgent } from "./isAIAgent";
+import { readConfig } from "../shared/config";
 
 type IsAiAgent = (req: http.IncomingMessage) => boolean;
 
 export type NxPageServerOptions = {
-  port?: number;
-  manifestPath?: string;
-  isBot?: IsAiAgent;
-  includeRoutePatterns?: RoutePattern[];
-  blockRoutePatterns?: RoutePattern[];
+    port: number;
+    isBot?: IsAiAgent;
 };
 
 const defaultManifestFolderPath = ".next/nxpage-pages/server/app";
 
-export function createNxPageServer(options: NxPageServerOptions = {}): void {
+export async function createNxPageServer(): Promise<void> {
+  const config = await readConfig();
   const dev = process.env.NODE_ENV !== "production";
   const {
     port = 3000,
-    manifestPath = defaultManifestFolderPath,
     isBot: checkIsBot,
-  } = options;
+  } = config.server;
+  const manifestPath = config.build.manifestPath ?? defaultManifestFolderPath;
+
 
   const app = next({ dev });
   const handle = app.getRequestHandler();
@@ -43,7 +43,7 @@ export function createNxPageServer(options: NxPageServerOptions = {}): void {
 
           if (isBot) {
             const routePath = normalizeRoutePath(req.url ?? "/");
-            const showProceed = shouldProcessRoute(routePath, options);
+            const showProceed = shouldProcessRoute(routePath, config.build);
             if (!showProceed) {
               return handle(req, res);
             }

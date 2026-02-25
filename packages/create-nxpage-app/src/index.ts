@@ -20,6 +20,7 @@ spawn.sync(
 
 spawn.sync("npm", ["install", "nxpage"], { cwd: root, stdio: "inherit" });
 
+fs.copyFileSync(path.join(templateDir, "nxpage.config.js"), path.join(root, "nxpage.config.js"));
 fs.copyFileSync(path.join(templateDir, "server.js"), path.join(root, "server.js"));
 
 const packageJsonPath = path.join(root, "package.json");

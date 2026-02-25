@@ -1,7 +1,7 @@
 {
   "name": "nxpage",
   "description": "Serve structured JSON instead of full HTML built specifically for AI agents, crawlers, and automation clients.",
-  "version": "1.0.01",
+  "version": "1.0.21",
   "main": "dist/index.cjs",
   "types": "dist/index.d.ts",
   "files": [
@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/NiteshSingh17/nxpage/issues"
   },
-   "keywords": [
+  "keywords": [
     "nextjs",
     "next.js",
     "nextjs seo",
@@ -42,7 +42,7 @@
     "nextjs manifest",
     "nextjs app router",
     "chatgpt bot optimizer"
-  ],  
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
@@ -61,7 +61,6 @@
     "next": "^16.x",
     "react": "^18.x",
     "react-dom": "^18.x",
-    "tsup": "^8.x",
-    "typescript": "^5.x"
+    "tsup": "^8.x"
   }
 }

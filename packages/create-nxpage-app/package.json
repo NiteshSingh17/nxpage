@@ -1,7 +1,7 @@
 {
   "name": "create-nxpage-app",
   "description": "A CLI to scaffold a production-ready Next.js app with NxPage bot-optimized server setup and Turbopack-safe build pipeline.",
-  "version": "0.1.18",
+  "version": "0.1.20",
   "bin": {
     "create-nxpage-app": "./dist/index.cjs"
   },
