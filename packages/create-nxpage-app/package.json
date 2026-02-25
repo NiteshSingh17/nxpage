@@ -1,0 +1,60 @@
+{
+  "name": "create-nxpage-app",
+  "description": "A CLI to scaffold a production-ready Next.js app with NxPage bot-optimized server setup and Turbopack-safe build pipeline.",
+  "version": "0.1.18",
+  "bin": {
+    "create-nxpage-app": "./dist/index.cjs"
+  },
+  "homepage": "https://github.com/NiteshSingh17/nxpage",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NiteshSingh17/nxpage.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NiteshSingh17/nxpage/issues"
+  },
+  "keywords": [
+    "nextjs",
+    "next.js",
+    "nextjs seo",
+    "nextjs performance",
+    "nextjs bot optimization",
+    "nextjs server",
+    "nextjs turbopack",
+    "turbopack compatible",
+    "ssr optimization",
+    "seo optimization",
+    "bot rendering",
+    "search engine optimization",
+    "googlebot",
+    "crawler optimization",
+    "nextjs build tool",
+    "nextjs self hosted",
+    "node server",
+    "static html cache",
+    "nextjs manifest",
+    "nextjs app router",
+    "chatgpt bot optimizer"
+  ],
+  "files": [
+    "dist",
+    "src",
+    "templates"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts && cpx \"templates/**/*\" dist/templates",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "cpx": "^1.5.0",
+    "cross-spawn": "^7.0.3",
+    "nxpage": "0.0.21"
+  },
+  "devDependencies": {
+    "@types/cross-spawn": "^6.0.6",
+    "@types/node": "^20.19.33",
+    "tsup": "^8.x",
+    "typescript": "^5.x"
+  }
+}

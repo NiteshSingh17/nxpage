@@ -1,0 +1,45 @@
+{
+  "name": "nxpage-monorepo",
+  "description": "Serve structured JSON instead of full HTML built specifically for AI agents, crawlers, and automation clients.",
+  "private": true,
+  "version": "1.0.0",
+  "homepage": "https://github.com/NiteshSingh17/nxpage",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NiteshSingh17/nxpage.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NiteshSingh17/nxpage/issues"
+  },
+   "keywords": [
+    "nextjs",
+    "next.js",
+    "nextjs seo",
+    "nextjs performance",
+    "nextjs bot optimization",
+    "nextjs server",
+    "nextjs turbopack",
+    "turbopack compatible",
+    "ssr optimization",
+    "seo optimization",
+    "bot rendering",
+    "search engine optimization",
+    "googlebot",
+    "crawler optimization",
+    "nextjs build tool",
+    "nextjs self hosted",
+    "node server",
+    "static html cache",
+    "nextjs manifest",
+    "nextjs app router",
+    "chatgpt bot optimizer"
+  ],  
+  "scripts": {
+    "build": "pnpm -r run build",
+    "dev": "pnpm -r run dev",
+    "clean": "pnpm -r run clean"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "name": "nxpage",
+  "description": "Serve structured JSON instead of full HTML built specifically for AI agents, crawlers, and automation clients.",
+  "version": "1.0.01",
+  "main": "dist/index.cjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "server"
+  ],
+  "bin": {
+    "nxpage": "./dist/cli.cjs"
+  },
+  "homepage": "https://github.com/NiteshSingh17/nxpage",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NiteshSingh17/nxpage.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NiteshSingh17/nxpage/issues"
+  },
+   "keywords": [
+    "nextjs",
+    "next.js",
+    "nextjs seo",
+    "nextjs performance",
+    "nextjs bot optimization",
+    "nextjs server",
+    "nextjs turbopack",
+    "turbopack compatible",
+    "ssr optimization",
+    "seo optimization",
+    "bot rendering",
+    "search engine optimization",
+    "googlebot",
+    "crawler optimization",
+    "nextjs build tool",
+    "nextjs self hosted",
+    "node server",
+    "static html cache",
+    "nextjs manifest",
+    "nextjs app router",
+    "chatgpt bot optimizer"
+  ],  
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist"
+  },
+  "peerDependencies": {
+    "next": ">=14",
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.33",
+    "next": "^16.x",
+    "react": "^18.x",
+    "react-dom": "^18.x",
+    "tsup": "^8.x",
+    "typescript": "^5.x"
+  }
+}
