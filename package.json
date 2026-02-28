@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/NiteshSingh17/nxpage/issues"
   },
-   "keywords": [
+  "keywords": [
     "nextjs",
     "next.js",
     "nextjs seo",
@@ -33,7 +33,7 @@
     "nextjs manifest",
     "nextjs app router",
     "chatgpt bot optimizer"
-  ],  
+  ],
   "scripts": {
     "build": "pnpm -r run build",
     "dev": "pnpm -r run dev",
