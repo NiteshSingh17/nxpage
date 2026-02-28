@@ -9,8 +9,8 @@ import { readConfig } from "../shared/config";
 type IsAiAgent = (req: http.IncomingMessage) => boolean;
 
 export type NxPageServerOptions = {
-    port: number;
-    isBot?: IsAiAgent;
+  port: number;
+  isBot?: IsAiAgent;
 };
 
 const defaultManifestFolderPath = ".next/nxpage-pages/server/app";
@@ -39,6 +39,7 @@ export async function createNxPageServer(): Promise<void> {
     http
       .createServer(async (req, res) => {
         try {
+
           const isBot = !dev && (checkIsBot ? checkIsBot(req) : isAIAgent(req));
 
           if (isBot) {
@@ -51,17 +52,16 @@ export async function createNxPageServer(): Promise<void> {
             const page = loadManifest(routePath);
 
             if (page) {
-              res.setHeader("Cache-Control", "private, no-store");
               res.setHeader("Vary", "User-Agent");
-              res.setHeader("Content-Type", "text/json");
+              res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=86400");
+              res.setHeader("Content-Type", "application/json; charset=utf-8");
               res.statusCode = 200;
+
               return res.end(page);
             }
           }
 
           const output = await handle(req, res);
-          res.setHeader("Cache-Control", "private, no-store");
-          res.setHeader("Vary", "User-Agent");
           return output;
         } catch {
           res.statusCode = 500;

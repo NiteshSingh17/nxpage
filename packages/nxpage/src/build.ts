@@ -69,5 +69,5 @@ export async function generateNxPageManifest(
   }
 
   await walk(buildPath);
-  console.log("NxPage manifest generated");
+  console.log(`NxPage manifest generated view build at ${distDir}/${outputFolder} `);
 }
