@@ -1,0 +1,79 @@
+export const metadata = {
+  title: "Getting Started | NxPage",
+  description: "Learn how to instantly scaffold a bot-optimized server architecture using the NxPage CLI.",
+};
+
+# Getting Started with NxPage
+
+NxPage is a revolutionary dual-delivery server framework built for Next.js App Router applications. 
+
+Rather than sending massive React hydration bundles and full HTML documents to AI systems and Search Crawlers, **NxPage serves lightweight, precompiled structured JSON automatically**. Meanwhile, human users continue navigating your beautiful, fully interactive Next.js application untouched.
+
+The fastest way to get started is by scaffolding a fresh environment utilizing our automated CLI.
+
+---
+
+## 1. Project Initialization
+
+Run the initialization CLI into a new directory:
+
+```bash
+npx create-nxpage-app my-awesome-site
+cd my-awesome-site
+```
+
+### What `create-nxpage-app` does automatically:
+1. Runs the standard Next.js CLI with the recommended configurations (`--ts`, App Router).
+2. Installs the `nxpage` package dependency.
+3. Automatically writes the specialized `server.js` and `nxpage.config.js` into your root directory.
+4. Rewires your `package.json` scripts to use the `nxpage` runtime.
+
+## 2. Configuration (`server.js`)
+
+Unlike standard Next.js where you run `next start`, NxPage relies on a custom proxy server that acts as a traffic controller before handing requests down. 
+
+When you initialized your project, a template `server.js` was provided. You can customize the bot routing directly in this file:
+
+```javascript
+// server.js
+import { createNxPageServer } from "nxpage";
+
+createNxPageServer({
+  port: Number(process.env.PORT ?? 3000),
+  // Specify which route groups should serve JSON to Search Engines & LLMs
+  includeRoutePatterns: ["/docs/**", "/blog/**"],
+  
+  // Hard-block specific internal routes from dual-delivery
+  blockRoutePatterns: ["/dashboard/**", "/internal/**"],
+});
+```
+
+## 3. Launching Development
+
+Your package scripts were rewired during setup. Run the dev server like normal:
+
+```bash
+npm run dev
+```
+
+*(Behind the scenes, this runs `nxpage dev` which wraps standard `next dev`)*
+
+## 4. Production Build & Start
+
+When you trigger a production build, NxPage executes standard Next.js `next build` alongside an execution of the `generateNxPageManifest()` engine. 
+
+This engine strips down your static HTML files and parses the structure into incredibly lightweight JSON files.
+
+```bash
+# Builds the HTML and the JSON artifacts simultaneously
+npm run build 
+
+# Boots up the custom NxPage traffic controller 
+npm run start
+```
+
+## 5. Deployment Information
+
+Because NxPage relies on a custom `node server.js` start script, it cannot run natively on Serverless Edge environments like standard Vercel configurations. **NxPage is built specifically for self-hosted containerized deployments (Docker, AWS ECS, Railway, Render, VPS).**
+
+Your Docker `CMD` or deployment command should simply be `npm run start` or `node server.js`.

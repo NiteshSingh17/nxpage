@@ -1,0 +1,45 @@
+export const metadata = {
+  title: "Overview | NxPage",
+  description: "Understand the core concepts, performance benefits, and optimal use cases for the NxPage server architecture.",
+};
+
+# Overview
+
+NxPage is an advanced, dual-delivery server framework designed specifically for Next.js App Router applications. 
+
+As AI Agents, LLM Scrapers, and automated crawlers make up an increasingly massive percentage of global web traffic, serving them traditional, heavy React payloads is a massive waste of resources. 
+
+NxPage solves this by sitting in front of your Next.js application, identifying who is making the request, and serving the most mathematically optimal payload for that specific visitor.
+
+---
+
+## Core Purpose
+
+The core purpose of NxPage is **Bandwidth Elimination and AI Optimization**. 
+
+Instead of forcing an AI crawler to download a 2MB HTML file filled with JavaScript hydration bundles, CSS styles, and interactive Client Components, NxPage automatically precompiles that exact same route into a lightweight, heavily structured JSON payload (often ~10KB) specifically formatted for machine comprehension.
+
+1. **Human Request ->** Standard Next.js server handles it. Full Next.js interactive experience.
+2. **Bot/Agent Request ->** NxPage intercepts it and serves the prebuilt JSON instantly.
+
+## Key Benefits
+
+### 1. Massive Bandwidth Reduction
+By stripping away CSS, JS bundles, and heavy UI components from the payloads served to bots, NxPage can reduce transfer sizes by **up to 99%**. If your site is heavily crawled, this directly translates to massive cuts in Vercel/AWS egress costs.
+
+### 2. Improved Server Scalability
+Bots are relentless. Serving static JSON instead of spinning up complex React component trees allows your ECS/Docker containers to handle significantly higher concurrency without CPU bottlenecks.
+
+### 3. Native Agent Optimization
+Modern search engines (like Perplexity) and chatbots (like ChatGPT) rely on scrapers to read your website. By feeding them clean, structured JSON containing only your headings, text, and critical metadata, you remove the "noise" of your UI, allowing LLMs to understand and cite your data far more accurately.
+
+## Who Should Use NxPage?
+
+NxPage is perfect for content-heavy, publicly accessible platforms where SEO and AI indexability are critical:
+
+- **Documentation Sites & Knowledge Bases:** Ensure LLMs can read your docs perfectly so developers get accurate answers when prompting ChatGPT.
+- **Blogs and News Publications:** Drastically lower the bandwidth cost of relentless RSS/Search crawlers scraping your daily articles.
+- **Landing Pages & Marketing Sites:** Improve your site's SEO parsing efficiency while maintaining high-fidelity, interactive animations for human visitors.
+- **E-Commerce Catalogs:** Serve structured product data to GoogleBot and AI shopping assistants natively.
+
+*Note: NxPage is strictly designed for self-hosted Node.js environments (Docker, AWS ECS, Railway, VPS) and does not currently support Edge environments.*

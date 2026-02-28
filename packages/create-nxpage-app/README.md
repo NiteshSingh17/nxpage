@@ -21,11 +21,11 @@ npx create-nxpage-app my-app
 
 1. Creates a Next.js app with TypeScript and App Router.
 2. Installs `nxpage`.
-3. Adds `server.ts` from template.
+3. Adds `server.ts` and `nxpage.config.js` from the templates.
 4. Updates scripts in generated `package.json`:
-   - `dev`: `next dev`
-   - `build`: `next build && nxpage build`
-   - `start`: `NODE_ENV=production node server.js`
+   - `dev`: `nxpage dev`
+   - `build`: `nxpage build`
+   - `start`: `nxpage start`
 
 ## After scaffold (recommended)
 

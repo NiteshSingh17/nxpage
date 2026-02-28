@@ -1,0 +1,99 @@
+export const metadata = {
+  title: "Options & Packages | NxPage",
+  description: "Reference guide for all NxPage CLI commands, server options, and configuration properties.",
+};
+
+# Full Options & Packages
+
+NxPage provides a robust, customizable API for determining exactly how and when your traffic is intercepted. 
+
+---
+
+## The `createNxPageServer` API
+
+This is the core Node.js traffic controller that replaces standard `next start` logic. You initialize it inside your custom `server.js` file at the root of your project.
+
+```typescript
+import { createNxPageServer } from "nxpage";
+
+createNxPageServer({
+  port: 3000,
+  manifestPath: ".next/nxpage-pages/server/app",
+  includeRoutePatterns: ["/blog/**"],
+  blockRoutePatterns: ["/api/**", "/internal/**"]
+});
+```
+
+### Server Configuration Options
+
+| Option | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `port` | `number` | `3000` | The port the Node.js server will bind to. Usually set via `process.env.PORT`. |
+| `manifestPath` | `string` | `".next/nxpage-pages/server/app"` | The internal path where NxPage searches for pre-compiled JSON routes generated during the build. |
+| `isBot` | `(req: Request) => boolean` | *Internal Regex* | A custom override function. You can pass your own logic to determine if an incoming request header belongs to a bot. |
+| `includeRoutePatterns` | `(string \| RegExp)[]` | `undefined` | An array of glob patterns or regexes. If provided, NxPage will **only** attempt to serve JSON on routes that match these patterns. |
+| `blockRoutePatterns` | `(string \| RegExp)[]` | `undefined` | An array of absolute block rules. If a route matches here, it will always fall back to standard Next.js HTML even if requested by a bot. Useful for hiding auth or dashboard routes. |
+
+---
+
+## The `generateNxPageManifest` API
+
+This function is responsible for the actual static generation. It scans your completed Next.js HTML build, extracts the semantics, and generates the lightweight JSON manifest.
+
+You rarely need to call this manually, as running `nxpage build` does this automatically. However, it is exported for complex CI/CD pipelines.
+
+```typescript
+import { generateNxPageManifest } from "nxpage";
+
+await generateNxPageManifest({
+  distDir: ".next",
+  includeRoutePatterns: ["/public/**"],
+  blockRoutePatterns: ["/private/**"]
+});
+```
+
+### Generator Configuration Options
+
+| Option | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `distDir` | `string` | `".next"` | The directory where Next.js output its production build. |
+| `manifestPath` | `string` | *Auto-generated* | Custom output location for the `nxpage-pages` directory. |
+| `includeRoutePatterns` | `(string \| RegExp)[]` | `undefined` | Only generate JSON manifests for routes matching these glob patterns. Saves build time on massive sites. |
+| `blockRoutePatterns` | `(string \| RegExp)[]` | `undefined` | Explicitly skip parsing HTML for these routes into JSON form. |
+
+---
+
+## CLI Commands
+
+The `nxpage` package provides a unified CLI that wraps standard Next.js commands to automatically handle the dual-state logic.
+
+### 1. `nxpage dev`
+- **What it does:** Safely wraps and executes `next dev`.
+- **Usage:** Run this during local development. It does not generate JSON on the fly, but allows you to build your React pages normally against your Turbopack/Webpack configuration.
+
+### 2. `nxpage build`
+- **What it does:** Sequentially executes `next build` followed immediately by `generateNxPageManifest()`.
+- **Usage:** Run this during your CI/CD step or Docker build. It is the core command that produces both your HTML Next Server and your static structured JSON database.
+
+### 3. `nxpage start`
+- **What it does:** Forces `NODE_ENV=production` and executes `node server.js` relative to your project root.
+- **Usage:** Run this as the final CMD in your Dockerfile or deployment script.
+
+---
+
+## CLI Packages
+
+### `create-nxpage-app`
+A fast-scaffolding tool that bundles everything above natively into a fresh repository.
+
+**Command:**
+```bash
+npx create-nxpage-app <project-name>
+```
+
+**What it does:**
+1. Triggers `npx create-next-app@latest` with TypeScript and App Router defaults.
+2. Installs the core `nxpage` engine.
+3. Automatically writes a best-practice `server.js` implementing `createNxPageServer()`.
+4. Overwrites the `package.json` scripts (`dev`, `build`, `start`) to use the `nxpage` CLI wrappers.
+5. Injects `nxpage.config.js` for customized pattern routing.

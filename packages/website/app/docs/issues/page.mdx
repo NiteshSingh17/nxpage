@@ -1,0 +1,58 @@
+export const metadata = {
+  title: "Bugs & Issues | NxPage",
+  description: "Learn how to report bugs, request features, and track issues for NxPage.",
+};
+
+# Bugs & Issues
+
+No software is perfect. If you encounter unexpected behavior, hydration errors on the client, or proxy failures on the server while utilizing `nxpage`, we want to know about it.
+
+Please follow these guidelines to ensure your issue is addressed quickly.
+
+---
+
+## 1. Where to Submit Issues
+
+All bugs, questions, and feature requests should be submitted via the official GitHub repository's issue tracker:
+
+**[Submit an Issue on GitHub](https://github.com/NiteshSingh17/nxpage/issues)**
+
+**Do not** email developers directly or ping privately regarding bugs. Open-source visibility allows the community to verify, debug, and learn from the resolution.
+
+---
+
+## 2. Reporting Bugs
+
+Before opening a new bug report, please **search the existing issues** to see if it has already been reported. 
+
+If you are opening a new report, include the following required information in your issue body:
+
+### Minimum Required Information
+1. **NxPage Version**: Which version of `nxpage` and `create-nxpage-app` are you running?
+2. **Next.js Version**: What version of Next.js and React are you compiling against?
+3. **Environment**: Are you using Turbopack? Are you deploying locally via `npm run start` or in Docker/ECS?
+4. **Expected Behavior**: What did you expect to happen?
+5. **Actual Behavior**: What actually happened? Provide the exact error logs or stack traces.
+
+### How to Reproduce
+The most critical part of resolving a bug is providing a **Minimal Reproducible Example (MRE)**. 
+
+- Do **not** link us to a massive, private, 50-route internal codebase. 
+- Do **not** paste 400 lines of unrelated Redux code.
+- Provide a link to a CodeSandbox, a StackBlitz, or a minimal public GitHub repository running a fresh `create-nxpage-app` that isolates the specific `nxpage` bug.
+
+*Issues submitted without clear reproduction steps will be closed until an MRE is explicitly provided.*
+
+---
+
+## 3. Proposing Feature Requests
+
+We are highly receptive to architectural improvements! Since NxPage focuses on providing a lightweight dual-delivery pipeline, feature proposals should align with this core goal (speed, bandwidth efficiency, SEO clarity).
+
+When opening a "Feature Request" issue, use the following structure:
+1. **The Problem:** Clearly explain the pain point you are experiencing with the current toolset.
+2. **The Proposed Solution:** Explain exactly how your idea solves the pain point. For example, "Add a `sitemapPath` variable to `createNxPageServer` to automatically ingest XML routes."
+3. **Alternatives Considered:** Did you try solving this in native Next.js middleware? Why did that fail?
+
+### Major Architectural Overhauls
+If your feature request requires fundamentally rewriting the core manifest generation (`generateNxPageManifest`), please open a "Discussion" thread on GitHub first before writing the code and submitting a massive PR. We want to align on the technical specifications before you invest your time.

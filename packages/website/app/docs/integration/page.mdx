@@ -1,0 +1,91 @@
+export const metadata = {
+  title: "Existing Project Integration | NxPage",
+  description: "Learn how to integrate the NxPage dual-delivery architecture safely into your existing Next.js App Router project.",
+};
+
+# Existing Project Integration
+
+If you already have a mature Next.js project and want to adopt the `nxpage` bot-optimization layer, you can do so safely without rewriting any of your existing React Server or Client Components.
+
+NxPage operates fundamentally at the server layer. It intercepts incoming traffic and seamlessly serves precompiled JSON payloads to LLM Agents and Search Crawlers, while standard browser users continue receiving your standard Next.js HTML templates.
+
+---
+
+## 1. Installation
+
+Install the package alongside your existing dependencies:
+
+```bash
+npm install nxpage
+```
+
+There are absolutely no UI or styling regressions to worry about because NxPage does not touch the React DOM render cycle.
+
+## 2. Configuration (`server.js`)
+
+At the root of your existing Next.js application, create a `server.js` file. This file will replace standard `next start` and act as your custom traffic controller:
+
+```javascript
+// server.js
+import { createNxPageServer } from "nxpage";
+
+createNxPageServer({
+  port: Number(process.env.PORT ?? 3000),
+  
+  // Decide which routes you want optimized for Agents
+  includeRoutePatterns: [
+    "/docs/**", 
+    "/blog/**",
+    "/changelog",
+  ],
+  
+  // Explicitly block routes (like authentication or dashboards)
+  blockRoutePatterns: ["/dashboard/**", "/api/**", "/internal/**"],
+});
+```
+
+## 3. Update Build Scripts
+
+NxPage relies on reading your Next.js HTML build output and parsing an active JSON manifest out of it. We need to update your `package.json` to hook into the `nxpage` runtime.
+
+Modify your `package.json` scripts:
+
+```json
+{
+  "scripts": {
+    "dev": "nxpage dev",
+    "build": "nxpage build",
+    "start": "nxpage start"
+  }
+}
+```
+
+### What these commands actually do:
+- `nxpage dev`: Safely wraps standard `next dev`.
+- `nxpage build`: Runs `next build`, and immediately runs `generateNxPageManifest()`, creating `.next/nxpage-pages/*`.
+- `nxpage start`: Executes `NODE_ENV=production node server.js`.
+
+## 4. Run the Build
+
+To see the engine in action, trigger a local production build:
+
+```bash
+npm run build
+```
+
+Under the hood, NxPage scans your `.next/server/app` HTML files and statically pregenerates deeply condensed, LLM-friendly JSON outputs alongside standard Next.js files.
+
+## 5. Deployment Considerations
+
+Since `nxpage` replaces the standard Edge-agnostic Next.js server with a custom Node.js traffic controller, **it cannot be deployed using Vercel's standard Serverless environment.** 
+
+NxPage is designed specifically for containerized and self-hosted environments:
+- AWS ECS / Fargate
+- Docker Containers
+- Railway, Render, Fly.io
+- Dedicated VPS (DigitalOcean, Hetzner, EC2)
+
+Your Docker entrypoint should point strictly to:
+```dockerfile
+CMD ["npm", "run", "start"]
+```

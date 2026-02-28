@@ -1,0 +1,98 @@
+export const metadata = {
+  title: "Contributing | NxPage",
+  description: "Learn how to set up the codebase locally and submit contributions to the NxPage project.",
+};
+
+# Contributing
+
+Thank you for your interest in contributing to NxPage! We welcome all contributions, from bug fixes and documentation improvements to major feature proposals. 
+
+To ensure a smooth process for everyone, please review the guidelines below.
+
+---
+
+## 1. Local Development Setup
+
+NxPage is built as a highly structured monorepo.
+
+### Prerequisites
+- **Node.js**: v20 or higher
+- **Package Manager**: npm (or pnpm, as used in the monorepo workspace)
+- **TypeScript**: Strict compilation is enforced.
+
+### Cloning and Installation
+First, clone the repository and install the dependencies at the root workspace:
+
+```bash
+git clone https://github.com/NiteshSingh17/nxpage.git
+cd nxpage
+npm install
+```
+
+### Running the Packages Locally
+To test changes directly inside the compiler, you should build the core `nxpage` logic.
+
+```bash
+cd packages/nxpage
+npm run build
+# You can also use `npm run dev` to watch for local tsup changes
+```
+
+To test how your changes translate into a generated application, utilize the provided testing `website`:
+
+```bash
+cd packages/website
+npm run dev
+```
+
+---
+
+## 2. Branching Strategy
+
+We follow a simple, descriptive branching model based on the GitHub Flow. 
+
+- `main`: The production-ready, stable codebase.
+- **Feature Branches**: Prefix all new features with `feat/` (e.g., `feat/add-custom-robots-txt`).
+- **Bug Fix Branches**: Prefix all bug fixes with `fix/` (e.g., `fix/manifest-parsing-error`).
+- **Documentation Branches**: Prefix with `docs/` (e.g., `docs/update-api-reference`).
+
+*Always branch off from `main` and ensure your local branch is up to date before submitting code.*
+
+---
+
+## 3. Commit Conventions
+
+We enforce [Conventional Commits](https://www.conventionalcommits.org/). Your commit messages should be structured as follows:
+
+```text
+type(scope?): subject
+```
+
+**Valid Examples:**
+- `feat(cli): added support for custom output directories`
+- `fix(server): resolved undefined port crashing the interceptor`
+- `docs: clarified the usage of blockRoutePatterns`
+
+---
+
+## 4. Code Standards & Expectations
+
+When drafting an implementation, ensure you follow the core philosophy of NxPage: **Zero Client Overhead**.
+
+- **TypeScript First**: Do not use `any`. Define your interfaces strictly in `src/`.
+- **No React DOM Pollution**: The core `nxpage` engine operates purely on raw string interpolation (`cheerio` manipulation of static HTML) and native Node HTTP routing (`isBot`, proxy forwarding). **Never** introduce heavy client React context (`useState`, `useEffect`) into the base CLI.
+- **Formatting**: We use default Prettier rules. Ensure your code is formatted before committing.
+
+---
+
+## 5. Submitting a Pull Request (PR)
+
+1. **Commit your changes** following the conventions.
+2. **Push your branch** to your forked repository.
+3. Open a **Pull Request** against the NxPage `main` branch.
+4. Provide a clear description inside the PR:
+   - What problem does this solve?
+   - How did you test the changes locally?
+   - Link any related issue numbers (e.g., "Fixes #42").
+
+Code reviews generally happen within 48 hours. Please address requested changes promptly.
