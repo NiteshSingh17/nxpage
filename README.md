@@ -1,4 +1,4 @@
-# nxpage Monorepo
+# NxPage 
 
 Serve structured JSON for AI agents/crawlers while keeping normal Next.js behavior for regular users.
 
