@@ -1,12 +1,12 @@
 module.exports = function getNxPageConfig() {
   return {
     server: {
-          port: 3000,
+      port: process.env.PORT || 3000,
     },
     build: {
-        distDir: ".next",
-        includeRoutePatterns: [],
-        blockRoutePatterns: [],
+      distDir: ".next",
+      includeRoutePatterns: [],
+      blockRoutePatterns: [],
     }
   }
 };
