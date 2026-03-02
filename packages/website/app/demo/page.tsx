@@ -1,11 +1,21 @@
 import { DemoViewer } from "./viewer";
 
-export default function Page() {
-    const defaultUrl = "https://nextjs.org/docs/app/getting-started/installation";
+type PageProps = {
+  searchParams: Promise<{
+    url?: string;
+  }>;
+};
 
-    return (
-        <div className="min-h-screen bg-background text-foreground">
-            <DemoViewer defaultUrl={defaultUrl} />
-        </div>
-    );
+export default async function Page({ searchParams }: PageProps) {
+  const params = await searchParams;
+
+  const url =
+    params?.url ??
+    "https://nextjs.org/docs/app/getting-started/installation";
+
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <DemoViewer defaultUrl={url} />
+    </div>
+  );
 }

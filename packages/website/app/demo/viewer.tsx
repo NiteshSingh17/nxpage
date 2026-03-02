@@ -1,13 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { fetchAndExtractPage, type AnalysisResult } from "./actions";
 import { useTheme } from "next-themes";
 import { Search, Code2, LayoutTemplate, Copy, Download, Zap, Sun, Moon } from "lucide-react";
 import { Iframe } from "./iframe";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { SecondaryButton } from "../_components/button";
 
 export function DemoViewer({ defaultUrl }: { defaultUrl: string }) {
+    const searchParams = useSearchParams();
+    const router = useRouter();
     const [mounted, setMounted] = useState(false);
     const [url, setUrl] = useState(defaultUrl);
     const [mode, setMode] = useState<"human" | "agent">("human");
@@ -25,6 +29,19 @@ export function DemoViewer({ defaultUrl }: { defaultUrl: string }) {
         e.preventDefault();
         if (!url) return;
 
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("url", url);
+        router.push(`/demo?${params.toString()}`);
+        fetchData(url);
+    };
+
+    useEffect(() => {
+        if(!defaultUrl) return;
+        fetchData(defaultUrl);
+    }, [defaultUrl]);
+
+    const fetchData = async (url: string) => {
+        if (!url) return;
         setLoading(true);
         setError(null);
         try {
@@ -86,30 +103,10 @@ export function DemoViewer({ defaultUrl }: { defaultUrl: string }) {
                                 <span className="sr-only">Toggle theme</span>
                             </button>
                         )}
+          <Link href='/docs/overview'>
+            <SecondaryButton>Read the Docs</SecondaryButton>
+          </Link>
 
-                        {/* Mode Toggle */}
-                        <div className="flex bg-zinc-200 dark:bg-zinc-800 p-1 rounded-lg">
-                            <button
-                                onClick={() => setMode("human")}
-                                className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-all ${mode === "human"
-                                    ? "bg-white dark:bg-zinc-950 text-black dark:text-white shadow-sm"
-                                    : "text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-300"
-                                    }`}
-                            >
-                                <LayoutTemplate className="w-4 h-4" />
-                                Human Mode
-                            </button>
-                            <button
-                                onClick={() => setMode("agent")}
-                                className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-all ${mode === "agent"
-                                    ? "bg-white dark:bg-zinc-950 text-black dark:text-white shadow-sm"
-                                    : "text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-300"
-                                    }`}
-                            >
-                                <Code2 className="w-4 h-4" />
-                                Agent Mode
-                            </button>
-                        </div>
                     </div>
                 </div>
 
@@ -162,7 +159,32 @@ export function DemoViewer({ defaultUrl }: { defaultUrl: string }) {
                         <p>Enter a URL above to analyze how it appears to Humans and AI Agents.</p>
                     </div>
                 )}
-
+                
+                <div className="mt-4 flex justify-center">
+                    {/* Mode Toggle */}
+                    <div className="mx-auto flex bg-zinc-200 dark:bg-zinc-800 p-1 rounded-lg">
+                        <button
+                            onClick={() => setMode("human")}
+                            className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-all ${mode === "human"
+                                ? "bg-white dark:bg-zinc-950 text-black dark:text-white shadow-sm"
+                                : "text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-300"
+                                }`}
+                        >
+                            <LayoutTemplate className="w-4 h-4" />
+                            Human Mode
+                        </button>
+                        <button
+                            onClick={() => setMode("agent")}
+                            className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-sm font-medium transition-all ${mode === "agent"
+                                ? "bg-white dark:bg-zinc-950 text-black dark:text-white shadow-sm"
+                                : "text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-300"
+                                }`}
+                        >
+                            <Code2 className="w-4 h-4" />
+                            Agent Mode
+                        </button>
+                    </div>
+                </div>
                 {/* Results Area */}
                 {result && (
                     <div className="flex-1 overflow-y-auto h-full flex flex-col md:flex-row">
@@ -257,6 +279,7 @@ export function DemoViewer({ defaultUrl }: { defaultUrl: string }) {
                                 </div>
                             </div>
                         )}
+
                     </div>
                 )}
             </main>
